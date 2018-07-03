@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--# For 10” tablets (720dp wide and bigger)-->
+	<dimen name="nav_header_vertical_spacing">10dp</dimen>
+	<dimen name="nav_header_height">200dp</dimen>
+	<dimen name="actionBarSizeCustom">48dp</dimen>
+
+	<dimen name="linear_item_margin_top">30dp</dimen>
+	<dimen name="linear_item_margin_bottom">30dp</dimen>
+	<dimen name="linear_item_culture_margin">100dp</dimen>
+	<dimen name="linear_item_region_margin">60dp</dimen>
+	<dimen name="linear_panel_margin_top">500dp</dimen>
+	<dimen name="linear_panel_margin_bottom">10dp</dimen>
+</resources>

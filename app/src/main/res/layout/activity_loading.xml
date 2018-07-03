@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/rLayout"
+    android:background="@drawable/img_bg_loading"
+    android:orientation="vertical"
+    tools:context="com.wedevgroup.weflyhelper.activity.LoadingActivity">
+
+
+    <LinearLayout
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:layout_centerInParent="true"
+        android:orientation="horizontal"
+        android:background="@drawable/bg_circle">
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <com.github.lzyzsd.circleprogress.CircleProgress
+                android:layout_marginTop="10dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_gravity="center"
+                android:id="@+id/circle_progress"
+                android:layout_width="180dp"
+                android:layout_height="180dp"
+                app:circle_max="100"
+                app:circle_finished_color="@color/colorPrimaryDark"
+                app:circle_unfinished_color="@color/gray_two"
+                app:circle_text_color="@color/white" />
+
+            <LinearLayout
+
+                android:layout_marginRight="50dp"
+                android:layout_marginStart="50dp"
+                android:layout_centerVertical="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <LinearLayout
+                    android:layout_gravity="center"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <com.wedevgroup.weflyhelper.utils.design.RobotoTextView
+                        android:id="@+id/percentTView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="0"
+                        android:textColor="@color/white"
+                        android:textSize="50sp"
+                        app:typeface="robotoBoldCondensed"/>
+
+                    <com.wedevgroup.weflyhelper.utils.design.RobotoTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:text="%"
+                        android:textColor="@color/white"
+                        android:textSize="30sp"
+                        app:typeface="robotoBold"/>
+
+                </LinearLayout>
+
+                <com.wedevgroup.weflyhelper.utils.design.RobotoTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/loading"
+                    android:textColor="@color/white"
+                    android:textSize="16sp"
+                    app:typeface="robotoLight"/>
+
+
+            </LinearLayout>
+
+        </RelativeLayout>
+
+
+
+    </LinearLayout>
+
+
+
+</RelativeLayout>

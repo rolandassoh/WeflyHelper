@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="linear_item_margin_top">4dp</dimen>
+    <dimen name="linear_item_margin_bottom">4dp</dimen>
+    <dimen name="linear_item_culture_margin">60dp</dimen>
+    <dimen name="linear_item_region_margin">35dp</dimen>
+    <dimen name="linear_panel_margin_top">15dp</dimen>
+    <dimen name="linear_panel_margin_bottom">10dp</dimen>
+
+    <dimen name="icon_item_size">9dp</dimen>
+    <dimen name="icon_item_margin">18dp</dimen>
+    <dimen name="icon_item_margin_small">8dp</dimen>
+    <dimen name="layout_item_margin">3dp</dimen>
+    <dimen name="layout_item_margin_left">3dp</dimen>
+    <dimen name="layout_item_image_width_height">150dp</dimen>
+</resources>

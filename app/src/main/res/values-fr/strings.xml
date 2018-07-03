@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name_big">WEFLY  HELPER</string>
+    <string name="app_name">Wefly Helper</string>
+    <string name="cancel_with_space">    Annuler   </string>
+    <string name="save_with_space"> Enregistrer  </string>
+    <string name="reset">Réinitialiser</string>
+    <string name="user_name">Nom d\'utilisateur</string>
+    <string name="login_big">CONNEXION</string>
+    <string name="abrev_hectare"> hec</string>
+    <string name="abrev_meter"> m</string>
+    <string name="send_all">Tout envoyer</string>
+    <string name="refresh">Actualiser</string>
+    <string name="synch">Synchroniser</string>
+    <string name="add">Ajouter</string>
+    <string name="meters"> mètres</string>
+    <string name="hectares"> hectare(s)</string>
+    <string name="perm_phone">Téléphone</string>
+    <string name="perm_storage">Stockage</string>
+    <string name="perm_sms">SMS</string>
+    <string name="perm_position">Position</string>
+    <string name="allow">Autoriser</string>
+    <!--Languages-->
+    <string name="languages">Langues</string>
+    <string name="lang_french">Français</string>
+    <string name="lang_english">English</string>
+
+    <string name="parcels">Vos parcelles</string>
+    <string name="guide">Guide</string>
+    <string name="empty_value">Value</string>
+    <string name="tel">N° Téléphone</string>
+    <string name="email">Email </string>
+    <string name="date">Date</string>
+    <string name="layer">Couche</string>
+    <string name="zone">Zone</string>
+    <string name="perimeter_no_point">Périmetre</string>
+    <string name="area_no_point">Surface</string>
+    <string name="names">Nom prénoms</string>
+    <string name="parcelle_num">parcelle 01</string>
+    <string name="parcelle_num_maj">Parcelle N° </string>
+    <string name="sample_town">TanoKoffiKro</string>
+    <string name="sample_date">26/03/2018</string>
+    <string name="see">Voir</string>
+    <string name="edit">Modifier</string>
+    <string name="delete">Supprimer</string>
+    <string name="label_guide">Nom du guide</string>
+    <string name="label_email">Email du guide</string>
+    <string name="enter_name">Entrez le nom</string>
+    <string name="enter_email">Entrez l\'email </string>
+    <string name="label_tel">N°Tel  Guide</string>
+    <string name="enter_layer">Entrez la Couche</string>
+    <string name="area_not_math">Zone</string>
+
+
+    <string name="info">INFORMATIONS</string>
+    <string name="culture">Culture(s)</string>
+    <string name="region">Région</string>
+    <string name="enter_culture">Saisissez une culture</string>
+    <string name="enter_region">Saisissez une région </string>
+    <string name="enter_tel">Entrez le N°Téléphone</string>
+    <string name="prompt_email">Email</string>
+    <string name="action_sign_in">Se connecter</string>
+    <string name="action_sign_in_short">Se connecter</string>
+    <string name="error_invalid_email">Cette adresse email est invalide.</string>
+    <string name="error_invalid_password">Ce mot de passe est trop court.</string>
+    <string name="error_incorrect_password">Ce mot de passe est incorrect.</string>
+    <string name="error">Le login ou le mot de passe est incorrecte.</string>
+    <string name="error_field_required">Ce champ est n\'est pas rempli correctement.</string>
+    <string name="identifiant_incorrecte">Le nom d\'utilisateur ou le mot de passe est incorrect.</string>
+
+
+    <string name="logout">Déconnexion</string>
+    <string name="defaults_values">Valeurs par défaut</string>
+    <string name="actions_settings">Paramètres</string>
+    <string name="location_permission_denied">Permission d\'accéder à la position actuelle refusée</string>
+    <string name="permission_required_toast">Vous devriez avoir la permission</string>
+    <string name="accueil">Accueil</string>
+    <string name="password">Mot de passe</string>
+
+    <!--Login-->
+    <string name="password_empty">Veuillez remplir le champ mot de passe</string>
+    <string name="name_empty">Veuillez remplir le champ nom d\'utilisateur</string>
+
+    <!--Internet-->
+    <string name="error_login">Erreur: Nom d\'utilisateur ou mot de passe invalide</string>
+    <string name="error_api">Une erreur s\'est produite</string>
+    <string name="connecting">Connexion</string>
+
+    <!--Update-->
+    <string name="menu_parcel">Parcelles</string>
+    <string name="menu_more">Parcelles</string>
+    <string name="menu_settings">Paramètres</string>
+    <string name="menu_help">Aide</string>
+    <string name="menu_home">Accueil</string>
+    <string name="menu_profile">Profil</string>
+    <string name="menu_logout">Déconnexion</string>
+    <string name="menu_entreprise">Entreprise</string>
+
+    <!--Parcelle-->
+    <string name="loading_creating">Sauvegarde ...</string>
+    <string name="loading_update">Enregistrement ...</string>
+    <string name="loading_delete">Suppression ...</string>
+    <string name="loading_moving">Déplacement ...</string>
+    <string name="loading_connecting">Connexion ...</string>
+    <string name="loading_map">Chargement en cours veuillez patienter</string>
+    <string name="loading_gps">Initialisation, veuillez patienter</string>
+    <string name="loading">Chargement ...</string>
+    <string name="loading_uploading">Téléversement ...</string>
+    <string name="search">Rechercher</string>
+    <string name="empty_parcelle">Aucune parcelle enregistrée</string>
+    <string name="catch_start">Capture en course</string>
+    <string name="catch_done">Capture réussie</string>
+    <string name="reference_exist">Référence déjà défini</string>
+    <string name="empty_phone">Veuillez remplir le champ N° de téléphone du guide</string>
+    <string name="empty_email">Veuillez remplir le champ email du guide</string>
+    <string name="empty_name">Veuillez remplir le champ nom du guide </string>
+    <string name="empty_couche">Veuillez remplir le champ couche </string>
+    <string name="empty_region">Veuillez sélectionner une région </string>
+    <string name="empty_zone">Veuillez préciser la zone </string>
+    <string name="empty_cultures">Veuillez ajouter au moins une culture </string>
+    <string name="empty_upload_list">Aucune parcelle à  uploader</string>
+    <string name="error_zone">Erreur de détection de la zone</string>
+    <string name="zone_msg">Indéterminée</string>
+    <string name="general">GENERALE</string>
+    <string name="first_name">Prénoms</string>
+    <string name="last_name">Nom</string>
+    <string name="entreprise">Entreprise</string>
+    <string name="name">Nom</string>
+    <string name="function">Fonction</string>
+    <string name="phone">Téléphone</string>
+
+    <string name="phone_not_valid">Numéro de téléphone non valide</string>
+    <string name="email_not_valid">Email non valide</string>
+    <string name="parcel_saved">Parcelle enregistrée</string>
+    <string name="parcel_saved_error">Erreur, parcelle non enregistrée</string>
+    <string name="parcel_updated">Modification(s) enregistrée(s)</string>
+    <string name="parcel_updated_error">Erreur, modification(s) non enregistrée(s)</string>
+    <string name="parcel_deleted">Parcelle supprimée</string>
+    <string name="parcel_deleted_error">Erreur, parcelle non supprimée</string>
+    <string name="parcel_uploaded">parcelle téléversée</string>
+    <string name="parcel_uploaded_alredy">Erreur, parcelle déjà uploadée</string>
+    <string name="parcel_uploaded_error">Erreur parcelle non uploadée</string>
+    <string name="parcel_uploaded_errors">Erreur parcelle(s) non uploadée(s)</string>
+    <string name="sync_error">Veuillez téléverser toutes vos parcelles</string>
+    <string name="succes_parcelles"> Vos parcelles ont été téléversées avec succès</string>
+    <string name="notif_service_title">Envoi automatique des parcelles</string>
+    <string name="cd_main_image">main image</string>
+    <!--Storage-->
+    <string name="storage_low">Erreur : Espace de stockage insuffisant</string>
+    <string name="content_navigation">navigation</string>
+
+
+    <!--Measure-->
+    <string name="area">Surface:</string>
+    <string name="perimeter">Périmètre:</string>
+
+
+
+    <!--Location-->
+    <string name="mlocation_permission_dialog_title">Localisation Désactivée</string>
+    <string name="mlocation_permission_dialog_message">Pour continuer, autorisez WeflyHelper à accéder à votre position</string>
+    <string name="location_service_disable">Pour continuer autorisez votre appareil à activer la localisation.</string>
+    <string name="yes">Oui</string>
+    <string name="no">Non</string>
+    <string name="not_now">Pas maintenant</string>
+
+    <!--Permission-->
+    <string name="error_permission_all_left">Veuillez accorder l\'autorisation </string>
+    <string name="error_permission_all_right">dans vos Paramètres</string>
+    <string name="permission_preference" translatable="false">PERMISSION_PREFERENCE</string>
+    <string name="error_permission_all_title">Rappel </string>
+
+    <string name="error_no_internet">Erreur, Veuillez vérifier votre connexion Internet puis réessayer </string>
+    <string name="error_ping">Pas de connexion internet</string>
+    <string name="error_delete">Erreur suppression non effectuée</string>
+    <string name="err_storage_unavaible">Erreur, Veuillez insérer une carte SD</string>
+    <string name="err_storage_space">Erreur, espace de stockage insuffisant </string>
+    <string name="err_storage_directory">Erreur, impossible de créer le dossier </string>
+    <string name="err_storage">Erreur, déplacement non effectué </string>
+    <string name="err_folder_empty">Déplacement non effectué : dossier vide </string>
+    <string name="succes_storage"> Déplacement effectué </string>
+    <string name="retry">Réessayer</string>
+
+    <!--Settings-->
+    <string name="storage">Stockage</string>
+    <string name="update_auto">Envoie</string>
+    <string name="use_update_auto">Activer l\'envoie automatique des parcelles</string>
+    <string name="about">À propos</string>
+    <string name="rules">Licence</string>
+    <string name="cache">Cache</string>
+    <string name="cache_info">Espace disque utilisé: </string>
+
+    <string name="use_external">Stocker les images sur la mémoire interne</string>
+
+    <!--About-->
+    <string name="about_message">Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. weflyagri.com , Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem +225 22 46 34 64. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim. Aliquam lorem ante, dapibus in, viverra quis, feugiat a, tellus. Phasellus viverra nulla ut metus varius laoreet. Quisque rutrum. Aenean imperdiet. Etiam ultricies nisi vel augue. Curabitur ullamcorper ultricies nisi. Nam eget dui. Etiam rhoncus. Maecenas tempus, tellus eget condimentum rhoncus, sem quam semper libero, sit amet adipiscing sem neque sed ipsum. Nam quam nunc, blandit vel, luctus pulvinar, hendrerit id, lorem. Maecenas nec odio et ante tincidunt tempus. Donec vitae sapien ut libero venenatis faucibus. Nullam quis ante. Etiam sit amet orci eget eros faucibus tincidunt. Duis leo. Sed fringilla mauris sit amet nibh. Donec sodales sagittis magna. Sed consequat, leo eget bibendum sodales, augue velit cursus nunc, quis gravida magna mi a libero. Fusce vulputate eleifend sapien. Vestibulum purus quam, scelerisque ut, mollis sed, nonummy id, metus. Nullam accumsan lorem in dui. Cras ultricies mi eu turpis hendrerit fringilla. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; In ac dui quis mi consectetuer lacinia. Nam pretium turpis et arcu. Duis arcu tortor, suscipit eget, imperdiet nec, imperdiet iaculis, ipsum. Sed aliquam ultrices mauris. Integer ante arcu, accumsan a, consectetuer eget, posuere ut, mauris. Praesent adipiscing. Phasellus ullamcorper ipsum rutrum nunc. Nunc nonummy metus. Vestibulum volutpat pretium libero. Cras id dui. Aenean ut</string>
+    <!--Update-->
+    <string name="version_title">Mise à jour</string>
+    <string name="version_msg">Nouvelles mise à jour trouvées, télécharger et installer</string>
+    <string name="update">Mettre à jour</string>
+    <string name="cancel_dialog">Annuler</string>
+    <string name="delete_title">Effacer</string>
+    <string name="msg_delete">Êtes-vous sûr de vouloir supprimer tous les points</string>
+
+    <!--Map key-->
+    <string name="google_map_api_key" translatable="false">AIzaSyBnrwffG13zX9xTHITXyCR2Og6xk1q655Y</string>
+
+    <string name="icon_no_parcelle"         translatable="false">&#xf114;</string>
+    <string name="ic_fonte_error_api"       translatable="false">&#xe89e;</string>
+
+    <!--Icon-->
+    <string name="icon_no_internet"         translatable="false">&#xeab6;</string>
+    <string name="fontello_search"          translatable="false">&#xea01;</string>
+    <string name="fontello_x_mark"          translatable="false">&#xe887;</string>
+    <string name="fontello_microfon"        translatable="false">&#xea18;</string>
+    <string name="fontello_x_mark_masked"   translatable="false">&#xe885;</string>
+
+    <!--PUT NEW item below to help translate-->
+</resources>

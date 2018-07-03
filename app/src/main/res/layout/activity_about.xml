@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/grey_lighter"
+    android:orientation="vertical"
+    tools:context="com.wedevgroup.weflyhelper.activity.AboutActivity">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:elevation="20dp"
+        android:background="@drawable/bg_without_label"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="@style/ActionBarThemeOverlayCustom" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="24sp"
+            android:fontFamily="sans-serif-condensed"
+            android:textStyle="normal"
+            android:gravity="top"
+            android:textColor="#ffffff"
+            android:text="@string/about"
+            />
+
+    </android.support.v7.widget.Toolbar>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:fillViewport="true"
+        android:layout_margin="@dimen/layout_about_margin"
+        android:elevation="10dp">
+        <TextView
+            android:id="@+id/content"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:autoLink="all"
+            android:fontFamily="sans-serif-light"
+            android:linksClickable="true"
+            android:paddingBottom="10dp"
+            android:paddingLeft="@dimen/activity_detail_horizontal_margin"
+            android:textColor="@color/grey_dark"
+            android:paddingRight="@dimen/activity_detail_horizontal_margin"
+            android:paddingTop="20dp"
+            android:text="@string/about_message"
+            android:textDirection="locale"
+            android:textSize="16sp" />
+
+    </ScrollView>
+
+
+
+
+
+</LinearLayout>

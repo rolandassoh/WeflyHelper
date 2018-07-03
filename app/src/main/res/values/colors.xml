@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#90b100</color>
+    <color name="colorPrimaryDark">#748f00</color>
+    <color name="colorPrimayLight">#acd300</color>
+    <color name="colorAccent">#9ec200</color>
+    <color name="colortoolbar">#748f00</color>
+    <color name="stockag_en_cours">#2f3a00</color>
+    <color name="stockage_reussi">#c7f500</color>
+    <color name="stockage_echoue">#eaff8f</color>
+    <color name="couleur_disable">#fdfff5</color>
+    <color name="white">#ffffff</color>
+    <color name="black">#000000</color>
+    <color name="black_two">#de000000</color>
+    <color name="black_settings">#212121</color>
+    <color name="gray_two">#969494</color>
+    <color name="gray">#A9A9A9</color>
+    <color name="gray_three">#E6E6E6</color>
+    <color name="gray_lighter">#EAEAEA</color>
+    <color name="gray_four">#d3d3d3</color>
+    <color name="gray_five">#797979</color>
+    <color name="gray_six">#bababa</color>
+    <color name="green_two">#517a00</color>
+    <color name="grey_lighter">#ededed</color>
+    <color name="grey_dark">#606060</color>
+
+    <color name="colorTransparentAccent">#6669f0ae</color>
+    <color name="colorTintAccent">#fc0e6139</color>
+    <color name="colorButtonLeft">#ffd800</color>
+    <color name="colorButtonRight">#306700</color>
+    <color name="colorFabStart">#306800</color>
+    <color name="colorFabEnd">#d6c401</color>
+    <color name="colorEditTextInput">#517a00</color>
+    <color name="colorDrawerBg">#fafafa</color>
+
+
+    <color name="transparent_color">#00000000</color>
+    <color name="colorPrimaryGray">#e2e2e2</color>
+
+
+    <color name="main_color_grey_500">@color/material_grey_500</color>
+    <color name="main_color_grey_50">@color/material_grey_50</color>
+    <color name="main_color_grey_100">@color/material_grey_100</color>
+    <color name="main_color_grey_200">@color/material_grey_200</color>
+    <color name="main_color_grey_300">@color/material_grey_300</color>
+    <color name="main_color_grey_400">@color/material_grey_400</color>
+    <color name="main_color_grey_600">@color/material_grey_600</color>
+    <color name="main_color_grey_700">@color/material_grey_700</color>
+    <color name="main_color_grey_800">@color/material_grey_800</color>
+    <color name="main_color_grey_900">@color/material_grey_900</color>
+
+</resources>

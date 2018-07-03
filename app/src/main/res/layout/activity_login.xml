@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:gravity="center_vertical"
+    android:orientation="vertical"
+    android:id="@+id/liMain"
+    tools:context="com.wedevgroup.weflyhelper.activity.LoginActivity">
+
+    <LinearLayout
+        android:id="@+id/liMainSec"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:background="@drawable/bghome"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <ImageView
+            android:layout_width="111dp"
+            android:layout_height="117dp"
+            android:layout_gravity="center"
+            android:src="@drawable/bg_logo" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="24sp"
+            android:fontFamily="sans-serif-condensed"
+            android:textStyle="normal"
+            android:textColor="#ffffff"
+            android:letterSpacing="0.03"
+            android:layout_gravity="center"
+            android:text="@string/app_name_big"
+            />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingLeft="@dimen/dm_left_right_padding"
+            android:paddingRight="@dimen/dm_left_right_padding">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="29.9dp"
+                android:background="@drawable/layout_linear_background"
+                android:gravity="bottom"
+                android:orientation="horizontal">
+
+                <com.mikepenz.iconics.view.IconicsImageView
+                    android:layout_width="12dp"
+                    android:layout_height="12dp"
+                    android:layout_gravity="start|center"
+                    android:layout_marginStart="10dp"
+                    android:gravity="center_vertical"
+                    android:layout_marginRight="10dp"
+                    app:iiv_color="@color/white"
+                    app:iiv_icon="faw-user" />
+
+
+                <EditText
+                    android:id="@+id/nameEdText"
+                    android:layout_width="215.1dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginStart="10dp"
+                    android:fontFamily="sans-serif-light"
+                    android:textStyle="normal"
+                    android:textColor="#ffffff"
+                    android:hint="@string/user_name"
+                    android:textColorHint="#ffffff"
+                    android:inputType="text"
+                    android:maxLines="1"
+                    android:textSize="@dimen/parcel_details_text_size"
+                    style="@style/CircleEditTextStyle"/>
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/layout_linear_background"
+                android:gravity="bottom"
+                android:orientation="horizontal">
+
+                <com.mikepenz.iconics.view.IconicsImageView
+                    android:layout_width="12dp"
+                    android:layout_height="12dp"
+                    android:layout_gravity="start|center"
+                    android:layout_marginStart="10dp"
+                    android:gravity="center_vertical"
+                    android:layout_marginRight="10dp"
+                    app:iiv_color="@color/white"
+                    app:iiv_icon="faw-lock" />
+
+
+
+                <EditText
+                    android:id="@+id/passwordEdText"
+                    android:layout_width="215.1dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginStart="10dp"
+                    android:fontFamily="sans-serif-light"
+                    android:textStyle="normal"
+                    android:textColor="#ffffff"
+                    android:maxLines="1"
+                    android:hint="@string/password"
+                    android:textColorHint="#ffffff"
+                    android:inputType="textPassword"
+                    android:textSize="@dimen/parcel_details_text_size"
+                    style="@style/CircleEditTextStyle"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/liLogin"
+                android:layout_width="138.4dp"
+                android:layout_height="31.1dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="20.4dp"
+                android:gravity="center_horizontal"
+                android:orientation="horizontal"
+                android:background="@drawable/button_background">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:fontFamily="sans-serif-medium"
+                    android:gravity="center"
+                    android:textColor="#ffffff"
+                    android:textSize="@dimen/parcel_details_text_size"
+                    android:textStyle="normal"
+                    android:text="@string/login_big" />
+
+                <com.mikepenz.iconics.view.IconicsImageView
+                    android:layout_width="12dp"
+                    android:layout_height="12dp"
+                    android:layout_marginStart="3dp"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:layout_marginRight="10dp"
+                    app:iiv_color="@color/white"
+                    app:iiv_icon="faw-unlock" />
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <include layout="@layout/linear_error_admin"/>
+
+
+
+</LinearLayout>
+

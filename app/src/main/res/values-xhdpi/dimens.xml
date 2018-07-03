@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="linear_item_margin_top">6dp</dimen>
+    <dimen name="linear_item_margin_bottom">6dp</dimen>
+    <dimen name="linear_item_culture_margin">90dp</dimen>
+    <dimen name="linear_item_region_margin">50dp</dimen>
+    <dimen name="linear_panel_margin_top">10dp</dimen>
+    <dimen name="linear_panel_margin_bottom">10dp</dimen>
+</resources>

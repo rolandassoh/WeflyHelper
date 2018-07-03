@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_height="48dp"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@color/colorPrimayLight"
+    android:gravity="center_vertical">
+
+<com.wedevgroup.weflyhelper.utils.design.MaterialDesignIconsTextView
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp"
+    android:text="@string/fontello_search"
+    android:textColor="@color/white"
+    android:textSize="18dp"
+    tools:ignore="SpUsage" />
+
+<EditText
+    android:id="@+id/search_field"
+    android:layout_width="0dp"
+    android:layout_height="wrap_content"
+    android:layout_weight="1"
+    android:background="@drawable/edit_text_background_accent"
+    android:inputType="text"
+    android:textColor="#fff"
+    android:textCursorDrawable="@drawable/edit_text_cursor_drawable_accent" />
+
+<com.wedevgroup.weflyhelper.utils.design.MaterialDesignIconsTextView
+    android:id="@+id/search_x"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp"
+    android:text="@string/fontello_x_mark"
+    android:textColor="@color/white"
+    android:textSize="18dp"
+    tools:ignore="SpUsage" />
+</LinearLayout>

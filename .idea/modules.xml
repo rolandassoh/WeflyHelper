@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/WeflyHelper.iml" filepath="$PROJECT_DIR$/WeflyHelper.iml" />
+      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/circleProgress/circleProgress.iml" filepath="$PROJECT_DIR$/circleProgress/circleProgress.iml" />
+      <module fileurl="file://$PROJECT_DIR$/cultureChipsInput/cultureChipsInput.iml" filepath="$PROJECT_DIR$/cultureChipsInput/cultureChipsInput.iml" />
+      <module fileurl="file://$PROJECT_DIR$/kenBurnsView/kenBurnsView.iml" filepath="$PROJECT_DIR$/kenBurnsView/kenBurnsView.iml" />
+    </modules>
+  </component>
+</project>
