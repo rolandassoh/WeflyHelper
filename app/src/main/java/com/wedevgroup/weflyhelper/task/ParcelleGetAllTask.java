@@ -1,8 +1,9 @@
 package com.wedevgroup.weflyhelper.task;
 
+import android.content.Context;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
-import android.support.annotation.WorkerThread;
+import android.util.Log;
 import android.widget.LinearLayout;
 
 import com.wedevgroup.weflyhelper.activity.MainActivity;
@@ -15,17 +16,22 @@ import com.wedevgroup.weflyhelper.utils.Utils;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.methods.HttpPut;
+import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.params.BasicHttpParams;
 import org.apache.http.params.HttpConnectionParams;
 import org.apache.http.params.HttpParams;
 import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
  * Created by admin on 02/04/2018.
@@ -41,12 +47,16 @@ public class ParcelleGetAllTask extends AsyncTask<Void, Integer, Boolean> {
     private AppController appController;
     private static boolean amIrunning;
     private OnParcelleLoadingCompleteListener listener;
+    private boolean isServerErr;
+    DataBasePresenter pDb;
 
     public ParcelleGetAllTask(@NonNull final MainActivity activity, boolean withInternet, @NonNull LinearLayout liMain){
         this.act = activity;
         this.withInternet = withInternet;
         this.liMain = liMain;
         appController = AppController.getInstance();
+        AppController.addTask(this);
+        pDb = DataBasePresenter.getInstance();
     }
     @Override
     protected void onPreExecute() {
@@ -62,10 +72,9 @@ public class ParcelleGetAllTask extends AsyncTask<Void, Integer, Boolean> {
     protected Boolean doInBackground(Void... voids) {
         try {
             if (withInternet){
-                AppController.addTask(this);
+                // Get List
                 GetParcellesNetworkUtilities util = new GetParcellesNetworkUtilities();
                 response = util.getResponseFromHttpUrl(Constants.PARCELLES_DOWNLOAD_URL);
-
                 if (!response.trim().equals("") && !response.trim().equals(Constants.SERVER_ERROR) && !response.trim().contains(Constants.RESPONSE_ERROR_HTML)){
                     if(response.trim().equals(Constants.RESPONSE_EMPTY) || response.trim().equals(Constants.RESPONSE_EMPTY_OTHER)){
                         // List Empty
@@ -73,13 +82,18 @@ public class ParcelleGetAllTask extends AsyncTask<Void, Integer, Boolean> {
                     }
                     JSONArray jArray = null;
                     jArray = new JSONArray(response);
-                    list.addAll(DataBasePresenter.getInstance().synchroDatabase(jArray, act));
+                    pDb.synchroDatabase(jArray, act);
+
+                }else{
+                    isServerErr = true;
                 }
-            }else{
-                list.addAll(DataBasePresenter.getInstance().getParcelles());
             }
 
+            list.clear();
+            list.addAll(pDb.getParcelles());
             return true;
+
+
         }catch (Exception e){
             e.printStackTrace();
             return false;
@@ -138,16 +152,24 @@ public class ParcelleGetAllTask extends AsyncTask<Void, Integer, Boolean> {
     public static interface OnParcelleLoadingCompleteListener {
         void onLoadError();
         void onSucces(@NonNull ArrayList<Parcelle> parcelles);
+        void onServerError();
     }
 
     private void notifyOnParcelleLoadingCompleteListener(boolean isOK, @NonNull ArrayList<Parcelle> list) {
         if (listener != null){
             try {
-                if (isOK){
+                if (isServerErr){
+                    listener.onServerError();
                     listener.onSucces(list);
-                }else{
-                    listener.onLoadError();
                 }
+                else{
+                    if (isOK){
+                        listener.onSucces(list);
+                    }else{
+                        listener.onLoadError();
+                    }
+                }
+
             }catch (Exception e){
                 e.printStackTrace();
             }

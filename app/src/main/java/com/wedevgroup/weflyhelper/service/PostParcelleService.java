@@ -469,7 +469,6 @@ public class PostParcelleService extends DBService {
 
     public final class ParcelleServiceNetworkUtilities {
         public String getResponseFromHttpUrl(@NonNull String data, @NonNull String url) throws IOException {
-            Log.v(Constants.APP_NAME, TAG + "Url " + url + " List " + data  );
 
             HttpClient httpclient ;
             HttpPost httppost = new HttpPost(url);

@@ -71,7 +71,6 @@ public class ProfileActivity extends BaseActivity implements ProfileGetTask.OnPr
         selected = 1;
 
         watcher.setOnInternetListener(this);
-        Log.v(Constants.APP_NAME, TAG + "  watcher SET LISTENER RUN");
 
         onDisplayUI(true, false, false);
 
@@ -174,7 +173,6 @@ public class ProfileActivity extends BaseActivity implements ProfileGetTask.OnPr
     @Override
     public void onConnected() {
         super.onConnected();
-        Log.v(Constants.APP_NAME, TAG + "  CONNECTED RUN");
         switch (selected){
             case 1:
                 // Display profile
@@ -189,14 +187,12 @@ public class ProfileActivity extends BaseActivity implements ProfileGetTask.OnPr
     @Override
     public void onNotConnected() {
         super.onNotConnected();
-        Log.v(Constants.APP_NAME, TAG + "  NOT CONNECTED RUN");
         onDisplayUI(false,true,false);
     }
 
     @Override
     public void onRetry() {
         super.onRetry();
-        Log.v(Constants.APP_NAME, TAG + "  RETRY RUN");
 
         if (watcher != null)
             watcher.isNetworkAvailable();
@@ -204,7 +200,6 @@ public class ProfileActivity extends BaseActivity implements ProfileGetTask.OnPr
 
     @Override
     public void onDownloadError(@NonNull String errorMsg) {
-        Log.v(Constants.APP_NAME, TAG + "  onDownloadError RUN");
         onDisplayUI(false, false, true);
     }
 
@@ -212,7 +207,6 @@ public class ProfileActivity extends BaseActivity implements ProfileGetTask.OnPr
     public void onDownloadSucces(@NonNull Account account) {
         this.account = account;
         showProfile(account);
-        Log.v(Constants.APP_NAME, TAG + "  onDownloadSucces RUN");
         onDisplayUI(false, false, false);
 
     }
@@ -220,7 +214,6 @@ public class ProfileActivity extends BaseActivity implements ProfileGetTask.OnPr
 
     @Override
     public void onNetworkError() {
-        Log.v(Constants.APP_NAME, TAG + "  NETWORK ERROR RUN");
         onDisplayUI(false, true, false);
 
     }

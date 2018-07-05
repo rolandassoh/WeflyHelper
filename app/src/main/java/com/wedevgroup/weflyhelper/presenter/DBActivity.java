@@ -212,10 +212,8 @@ public class DBActivity extends BaseActivity implements ParcelleCreateTask.OnPar
     protected void cleanDB(){
         try {
             DataBasePresenter.getInstance().resetDB(this);
-            Log.v(Constants.APP_NAME, TAG + " CLEAR DB DONE");
         } catch (Exception e) {
             e.printStackTrace();
-            Log.v(Constants.APP_NAME, TAG + " CAN'T CLEAR DB");
 
         }
     }

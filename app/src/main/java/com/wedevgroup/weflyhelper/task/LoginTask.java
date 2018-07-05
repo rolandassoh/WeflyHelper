@@ -78,7 +78,6 @@ public  class LoginTask extends AsyncTask<Void, Integer, Boolean> {
         LoginNetworkUtilities util = new LoginNetworkUtilities();
         try {
             response = util.getResponseFromHttpUrl(obj, Constants.LOGIN_URL );
-            Log.v(Constants.APP_NAME, TAG + " response " + response);
             if (!response.trim().equals("") && !response.trim().equals(Constants.SERVER_ERROR) && !response.trim().equals(Constants.RESPONSE_EMPTY) && !response.trim().contains(Constants.RESPONSE_ERROR_HTML)){
                 // post update
                 if(response.trim().contains(Constants.RESPONSE_EMPTY_INPUT)){
@@ -90,7 +89,6 @@ public  class LoginTask extends AsyncTask<Void, Integer, Boolean> {
 
         } catch (Exception e) {
             e.printStackTrace();
-            Log.v(Constants.APP_NAME, TAG +"doInBackground Error ");
         }
         return false;
 

@@ -318,7 +318,6 @@ public class Utils {
         v.buildDrawingCache();
         Bitmap cacheBitmap = v.getDrawingCache();
         if (cacheBitmap == null) {
-            Log.v(Constants.APP_NAME, "failed getViewBitmap(" + v + ")", new RuntimeException());
             return null;
         }
 
@@ -474,6 +473,19 @@ public class Utils {
     public static void pointItemToLog(@NonNull PointCustom point){
         Log.v(Constants.APP_NAME, TAG + " id " +  point.getPoint().getPointId() + " parcelleId " + point.getPoint().getParcelleId() + " lat " + point.getPoint().getLatitude() + " long " + point.getPoint().getLongitude() +
         "  rang " + point.getPoint().getRang() + " isCenter " + point.getPoint().isCenter() + " isReference " +  point.getPoint().isReference() + " idOnMap" + point.getIdOnMap() );
+
+    }
+
+    public static void pointsNotCusToLog(@NonNull String tag, @NonNull ArrayList<Point> list, @NonNull String name){
+        for (Point dm: list){
+            pointNotCusItemToLog(dm);
+        }
+        Log.v(Constants.APP_NAME, tag + " name" + name + " size " + list.size() );
+    }
+
+    public static void pointNotCusItemToLog(@NonNull Point point){
+        Log.v(Constants.APP_NAME, TAG + " id item " +  point.getPointId() + " parcelleId " + point.getParcelleId() + " lat " + point.getLatitude() + " long " + point.getLongitude() +
+                "  rang " + point.getRang() + " isCenter " + point.isCenter() + " isReference " +  point.isReference());
 
     }
 

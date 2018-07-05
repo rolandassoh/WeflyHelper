@@ -114,7 +114,6 @@ public class DataBasePresenter extends SQLiteOpenHelper {
             db.execSQL(CREATE_TABLE_CULTURE);
         }catch (Exception e){
             e.printStackTrace();
-            Log.v(Constants.APP_NAME, TAG + "onCreate fail");
         }
 
     }
@@ -130,7 +129,6 @@ public class DataBasePresenter extends SQLiteOpenHelper {
             onCreate(db);
         }catch (Exception e){
             e.printStackTrace();
-            Log.v(Constants.APP_NAME, TAG + "onUpgrade fail");
         }
 
     }
@@ -149,7 +147,6 @@ public class DataBasePresenter extends SQLiteOpenHelper {
             cursor.close();
         }catch (Exception e){
             e.printStackTrace();
-            Log.v(Constants.APP_NAME, TAG + "getParcelleTotalItems error");
         }
 
         return totalItems;
@@ -171,7 +168,7 @@ public class DataBasePresenter extends SQLiteOpenHelper {
             cursor.close();
 
         }catch (Exception e){
-            Log.v(Constants.APP_NAME, TAG + "getPointTotalItems fail");
+            e.printStackTrace();
         }
         return totalItems;
 
@@ -192,7 +189,7 @@ public class DataBasePresenter extends SQLiteOpenHelper {
             cursor.close();
 
         }catch (Exception e){
-            Log.v(Constants.APP_NAME, TAG + "getCultureTotalItems fail");
+            e.printStackTrace();
         }
         return totalItems;
 
@@ -206,17 +203,18 @@ public class DataBasePresenter extends SQLiteOpenHelper {
         try{
             // was never sent
             if (parcelle.isNew() && parcelle.getDateSoumission().trim().equals("")){
-                deleteParcelle(parcelle.getParcelleId(), ctx);
+                return deleteParcelle(parcelle.getParcelleId(), ctx);
             }else{
                 // send One time
                 parcelle.setDateSoumission("");
                 parcelle.setNew(false);
                 parcelle.setDelete(true);
+                return  updateParcelle(parcelle, false);
             }
-            return  updateParcelle(parcelle);
+
+
         }catch (Exception e){
             e.printStackTrace();
-            Log.v(Constants.APP_NAME, TAG + "deleteParcelle  Id "+ id + "fail");
             return  false;
         }
 
@@ -244,7 +242,6 @@ public class DataBasePresenter extends SQLiteOpenHelper {
             return  true;
         }catch (Exception e){
             e.printStackTrace();
-            Log.v(Constants.APP_NAME, TAG + "deleteParcelle  Id "+ parcelId + "fail");
             return  false;
         }
 
@@ -337,14 +334,12 @@ public class DataBasePresenter extends SQLiteOpenHelper {
                 for (Culture dm: parcelle.getCultureList()){
                     addCulture(dm, id);
                 }
-                Log.v(Constants.APP_NAME, TAG+ "Added parcelle item Done ");
                 return true;
             }
 
 
         }catch (Exception e){
             e.printStackTrace();
-            Log.v(Constants.APP_NAME, TAG + "addParcelle Error");
         }
         return false;
     }
@@ -441,7 +436,6 @@ public class DataBasePresenter extends SQLiteOpenHelper {
             dba.close();
         }catch (Exception e){
             e.printStackTrace();
-            Log.v(Constants.APP_NAME, TAG + "addPoint Error");
         }
     }
 
@@ -463,19 +457,19 @@ public class DataBasePresenter extends SQLiteOpenHelper {
             dba.close();
         }catch (Exception e){
             e.printStackTrace();
-            Log.v(Constants.APP_NAME, TAG + "addCulture Error");
         }
     }
 
 
-    public boolean updateParcelle(@NonNull Parcelle parcelle) {
+    public boolean updateParcelle(@NonNull Parcelle parcelle, boolean isSyncItem ) {
         try {
-            // create and edit without send
-            if (!parcelle.getDateSoumission().trim().equals("")){
-                parcelle.setNew(false);
+            if (!isSyncItem){
+                // create and edit without send
+                if (!parcelle.getDateSoumission().trim().equals("")){
+                    parcelle.setNew(false);
+                }
+                parcelle.setDateSoumission("");
             }
-            parcelle.setDateSoumission("");
-
             SQLiteDatabase dba = this.getWritableDatabase();
             String updateId = Integer.toString(parcelle.getParcelleId());
             ContentValues values = new ContentValues();
@@ -520,11 +514,9 @@ public class DataBasePresenter extends SQLiteOpenHelper {
                 addCulture(dm, parcelle.getParcelleId());
 
             }
-            Log.v(Constants.APP_NAME, TAG + "updateParcelle Done");
             return true;
         } catch (Exception e){
             e.printStackTrace();
-            Log.v(Constants.APP_NAME, TAG + "updateParcelle Error");
             return false;
         }
     }
@@ -593,13 +585,11 @@ public class DataBasePresenter extends SQLiteOpenHelper {
                     addCulture(dm, parcelle.getParcelleId());
 
                 }
-                Log.v(Constants.APP_NAME, TAG + "updateParcelle Done");
                 return true;
             }
 
         } catch (Exception e){
             e.printStackTrace();
-            Log.v(Constants.APP_NAME, TAG + "updateParcelle Error");
 
         }
         return false;
@@ -653,11 +643,9 @@ public class DataBasePresenter extends SQLiteOpenHelper {
                 addCulture(dm, parcelle.getParcelleId());
 
             }
-            Log.v(Constants.APP_NAME, TAG + "updateParcelle Done");
             return true;
         } catch (Exception e){
             e.printStackTrace();
-            Log.v(Constants.APP_NAME, TAG + "updateParcelle Error");
             return false;
         }
     }
@@ -680,7 +668,6 @@ public class DataBasePresenter extends SQLiteOpenHelper {
             dba.close();
         }catch (Exception e){
             e.printStackTrace();
-            Log.v(Constants.APP_NAME, TAG + "updatePoint Error");
         }
     }
 
@@ -700,7 +687,6 @@ public class DataBasePresenter extends SQLiteOpenHelper {
             dba.close();
         }catch (Exception e){
             e.printStackTrace();
-            Log.v(Constants.APP_NAME, TAG + "updateCulture Error");
         }
     }
 
@@ -778,7 +764,6 @@ public class DataBasePresenter extends SQLiteOpenHelper {
             dba.close();
         }catch (Exception e){
             e.printStackTrace();
-            Log.v(Constants.APP_NAME, TAG + "getParcelles Error");
         }
 
         return parcelleList;
@@ -841,6 +826,7 @@ public class DataBasePresenter extends SQLiteOpenHelper {
                     pt.setCenter(cursor.getInt(cursor.getColumnIndex(Constants.TABLE_POINT_IS_CENTER_NAME)));
                     pt.setReference(cursor.getInt(cursor.getColumnIndex(Constants.TABLE_POINT_IS_REFERNCE_NAME)));
                     pt.setParcelleId(cursor.getInt(cursor.getColumnIndex(Constants.TABLE_POINT_PARCELLE_ID_NAME)));
+                    pt.setPointId(cursor.getInt(cursor.getColumnIndex(Constants.TABLE_POINT_KEY)));
 
 
                     pointList.add(pt);
@@ -854,7 +840,6 @@ public class DataBasePresenter extends SQLiteOpenHelper {
             dba.close();
         }catch (Exception e){
             e.printStackTrace();
-            Log.v(Constants.APP_NAME, TAG + "getPoints Error");
         }
 
         return pointList;
@@ -900,7 +885,6 @@ public class DataBasePresenter extends SQLiteOpenHelper {
             dba.close();
         }catch (Exception e){
             e.printStackTrace();
-            Log.v(Constants.APP_NAME, TAG + "getCultures Error");
         }
 
         return cultureList;
@@ -925,7 +909,6 @@ public class DataBasePresenter extends SQLiteOpenHelper {
             Save.defaultSaveString(Constants.PREF_CULTURE_LIST, jArray.toString(), ctx);
         }catch (Exception e){
             e.printStackTrace();
-            Log.v(Constants.APP_NAME, TAG + "saveCultureList Error");
         }
     }
 
@@ -934,7 +917,6 @@ public class DataBasePresenter extends SQLiteOpenHelper {
             Save.defaultSaveString(Constants.PREF_TYPE_CULTURE_LIST, array.toString(), ctx);
         }catch (Exception e){
             e.printStackTrace();
-            Log.v(Constants.APP_NAME, TAG + "saveTypeCultureList Error");
         }
 
     }
@@ -944,7 +926,6 @@ public class DataBasePresenter extends SQLiteOpenHelper {
             Save.defaultSaveString(Constants.PREF_REGION, array.toString(), ctx);
         } catch (Exception e){
             e.printStackTrace();
-            Log.v(Constants.APP_NAME, TAG + "saveRegionsList Error");
         }
     }
 
@@ -953,7 +934,6 @@ public class DataBasePresenter extends SQLiteOpenHelper {
             Save.defaultSaveString(Constants.PREF_DATABASE_VERSION_DATE, objectString, ctx);
         } catch (Exception e){
             e.printStackTrace();
-            Log.v(Constants.APP_NAME, TAG + "saveOnlineDBVersion Error");
         }
     }
 
@@ -997,7 +977,6 @@ public class DataBasePresenter extends SQLiteOpenHelper {
 
         } catch (Exception e){
             e.printStackTrace();
-            Log.v(Constants.APP_NAME, TAG + "CAN'T Database version Date");
         }
 
         return date;
@@ -1018,7 +997,6 @@ public class DataBasePresenter extends SQLiteOpenHelper {
             }
         } catch (Exception e){
             e.printStackTrace();
-            Log.v(Constants.APP_NAME, TAG + "CAN'T getCultureTypes");
         }
 
         return cultureTypeList;
@@ -1041,7 +1019,6 @@ public class DataBasePresenter extends SQLiteOpenHelper {
             }
         }catch (Exception e){
             e.printStackTrace();
-            Log.v(Constants.APP_NAME, TAG + " CAN'T getCultures");
         }
 
 
@@ -1064,7 +1041,6 @@ public class DataBasePresenter extends SQLiteOpenHelper {
             }
         } catch (Exception e){
             e.printStackTrace();
-            Log.v(Constants.APP_NAME, TAG + " CAN'T getRegions");
         }
 
         return list;
@@ -1072,7 +1048,6 @@ public class DataBasePresenter extends SQLiteOpenHelper {
 
 
     public boolean updateDataBase(@NonNull CopyOnWriteArrayList<Parcelle> parcelToDelete, @NonNull String newListToUpdate , final  Context ctx){
-        Log.v(Constants.APP_NAME,TAG + " updateDataBase ");
         if (ctx != null){
             ArrayList<Parcelle> responseList = new ArrayList<Parcelle>();
 
@@ -1090,10 +1065,10 @@ public class DataBasePresenter extends SQLiteOpenHelper {
                     mp.setDateSoumission(upObj.getString("date_soumission"));
                     mp.setIdOnServer(upObj.getInt("id"));
                     mp.setDelete(Boolean.valueOf(upObj.getString("isDelete")));
+                    //mp.setZone(upObj.getString("zone"));
 
                     responseList.add(mp);
                 }
-                Log.v(Constants.APP_NAME,TAG + "updateDataBase LINE arrayOfUpdate ");
 
                 // remove all
                 for (Parcelle back: responseList){
@@ -1105,14 +1080,14 @@ public class DataBasePresenter extends SQLiteOpenHelper {
                             my.setDelete(back.isDelete());
                         }
 
-                        if (my.isDelete() && (!my.getDateSoumission().trim().equals("")))
+                        if (my.isDelete() && (!my.getDateSoumission().trim().contentEquals(""))){
                             deleteParcelle(my.getParcelleId(), ctx);
+                        }
                         else
                             updateParcelleFromApi(my);
                     }
                 }
 
-                Log.v(Constants.APP_NAME,TAG + "updateDataBase is Ok");
                 return true;
 
             } catch (Exception e) {
@@ -1128,7 +1103,6 @@ public class DataBasePresenter extends SQLiteOpenHelper {
 
 
     public boolean saveCreated(@NonNull CopyOnWriteArrayList<Parcelle> parcelToCreate, @NonNull String newListToCreate, final  Context ctx){
-        Log.v(Constants.APP_NAME,TAG + " updateDataBase ");
         if (ctx != null){
             ArrayList<Parcelle> responseList = new ArrayList<Parcelle>();
 
@@ -1146,12 +1120,12 @@ public class DataBasePresenter extends SQLiteOpenHelper {
                     p.setDateSoumission(obj.getString("date_soumission"));
                     p.setIdOnServer(obj.getInt("id"));
                     p.setDelete(Boolean.valueOf(obj.getString("isDelete")));
+                    //p.setZone(obj.getString("zone"));
 
                     //Save New Parcelle
                     responseList.add(p);
 
                 }
-                Log.v(Constants.APP_NAME,TAG + "updateDataBase LINE responseList.add(p); ");
 
 
                 // remove all old and add new
@@ -1168,8 +1142,6 @@ public class DataBasePresenter extends SQLiteOpenHelper {
                         updateParcelleFromApi(my);
                     }
                 }
-
-                Log.v(Constants.APP_NAME,TAG + "updateDataBase is Ok");
                 return true;
 
             } catch (Exception e) {
@@ -1200,9 +1172,9 @@ public class DataBasePresenter extends SQLiteOpenHelper {
     }
 
     public  CopyOnWriteArrayList<Parcelle> synchroDatabase(@NonNull final JSONArray pArray, final Context ctx){
+        CopyOnWriteArrayList<Parcelle> listToReturn= new CopyOnWriteArrayList<>();
         onInit();
         getCultures();
-        Log.v(Constants.APP_NAME, TAG + "doInBackground getCultures();");
 
         if (ctx != null){
 
@@ -1237,7 +1209,6 @@ public class DataBasePresenter extends SQLiteOpenHelper {
                         final ArrayList<Point> points = new ArrayList<Point>();
 
                         JSONArray ptArray = obj.getJSONArray("polygon");
-                        Log.v(Constants.APP_NAME, TAG + "doInBackground ptArray created Done");
                         for (int j = 0; j < ptArray.length(); j++){
                             JSONObject pointObj  = ptArray.getJSONObject(j);
                             Point p = new Point();
@@ -1258,14 +1229,12 @@ public class DataBasePresenter extends SQLiteOpenHelper {
                         // get All Cultures
                         final ArrayList<Culture> cultures = new ArrayList<>();
                         JSONArray culArray = obj.getJSONArray("cultId");
-                        Log.v(Constants.APP_NAME, TAG + "doInBackground obj.getJSONArray) cultureList size " + getCultures(ctx).size());
 
                         for (int k = 0; k < culArray.length() ; k ++){
                             Culture c = new Culture();
 
                             c.setCultureId(culArray.getInt(k));
                             for (Culture cDm: getCultures(ctx)){
-                                Log.v(Constants.APP_NAME, TAG + " culture name "+ cDm.getName() +  "culture Id "+ cDm.getCultureId() + " Item Id  " + c.getCultureId());
                                 if (cDm.getCultureId() == c.getCultureId())
                                     cultures.add(cDm);
                             }
@@ -1277,22 +1246,58 @@ public class DataBasePresenter extends SQLiteOpenHelper {
                             parc.setCultureList(cultures);
                         }
 
-                        Log.v(Constants.APP_NAME, TAG + "doInBackground Sav all Culture");
-
-                        parcelleList.add(parc);
+                        listToReturn.add(parc);
                     }
 
                 }
 
                 // Save all Parcelle
-                if (parcelleList.size() > 0){
-                    for (Parcelle dm : parcelleList)
-                        addParcelle(dm, ctx, false, true);
+                if (listToReturn.size() > 0){
+
+                    // get Great ID
+                    int great = 0;
+                    for (Parcelle dm: listToReturn){
+                        if (dm.getParcelleId() > great)
+                            great = dm.getParcelleId();
+                    }
+
+                    // Save fake list
+
+                    // get dummy parcelle
+                    Parcelle dp = listToReturn.get(0);
+                    dp.setDelete(true);
+
+                    for (int i = 0; i <= great; i++){
+                        addParcelle(dp, ctx, false, true);
+                    }
+
+                    // Save good list
+                    for (Parcelle dm: listToReturn){
+                        dm.setDelete(false);
+                        updateParcelle(dm, true);
+                    }
+
+                    // remove Bad Item
+                    getParcelles(); // refresh parcelleList
+
+                    for (Parcelle item: parcelleList){
+                        if (item.isDelete()){
+                            deleteParcelle(item.getParcelleId(), ctx);
+                        }
+
+                    }
+
+
+                    // refresh list Again
+                    getParcelles(); // refresh parcelleList
+
                 }
                 // update RecyclerView
 
             }catch (Exception e){
                 e.printStackTrace();
+            }catch (OutOfMemoryError er){
+                er.printStackTrace();
             }
         }
 
@@ -1306,6 +1311,24 @@ public class DataBasePresenter extends SQLiteOpenHelper {
         // delete all Image
         CacheImage cache = new CacheImage(ctx);
         cache.cleanCache();
+
+
+    }
+
+    public @NonNull Parcelle getLastParcelle() {
+        Parcelle p = null;
+        getParcelles();
+        try {
+            if (parcelleList.size() > 0)
+                p = parcelleList.get(0);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+        if (p == null)
+            p = new Parcelle();
+
+        return p;
 
 
     }

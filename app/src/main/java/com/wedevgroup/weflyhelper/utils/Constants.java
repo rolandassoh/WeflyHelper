@@ -7,12 +7,15 @@ package com.wedevgroup.weflyhelper.utils;
 public class Constants {
 
     // APP NAME
-    public static final String APP_NAME = "WeflyHelper";
-    public static final String PATH             = "weflyhelper";
+    public static final String APP_NAME     = "WeflyHelper";
+    public static final String PATH         = "weflyhelper";
 
-    //public static final String BASE_URL =  "http://217.182.133.143:8004/geoloc/";
+    // LOCAL SERVER
+    //public static final String API_URL      =  "http://192.168.1.224:8000/";
 
-    public static final String API_URL      =  "http://192.168.1.224:8000/";
+
+    // ONLINE SERVER
+    public static final String API_URL      =  "http://217.182.133.143:8004/";
 
     public static final String BASE_URL     =  API_URL + "geoloc/";
 
@@ -23,7 +26,7 @@ public class Constants {
     //GET
     public static final String PARCELLES_DOWNLOAD_URL = BASE_URL + "polygon-detail/";
 
-    public static final String USER_PROFILE = BASE_URL + "profil/";
+    public static final String USER_PROFILE = BASE_URL + "profileview/";
 
     //GET
     public static final String CULTURES_URL = BASE_URL + "culture/";
@@ -40,6 +43,9 @@ public class Constants {
     //POST
     public static final String PARCELLE_SENT_URL = BASE_URL + "mobile/";
     public static final String PARCELLE_SENT_UPDATE_URL = BASE_URL + "upmobile/";
+
+
+    public static final String PARCELLE_SENT_UPDATE_SYNCH_URL = BASE_URL + "polygon/2/";
 
 
     // NETWORK minimal accuracy

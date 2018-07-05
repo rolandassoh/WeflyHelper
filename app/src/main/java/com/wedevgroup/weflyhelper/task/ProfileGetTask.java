@@ -62,7 +62,6 @@ public class ProfileGetTask extends AsyncTask<Void, Integer, Boolean> {
         try {
             SignInTaskNetworkUtilities util = new SignInTaskNetworkUtilities();
             response = util.getResponseFromHttpUrl(url);
-            Log.v(Constants.APP_NAME, TAG + "  response " + response);
             if (!response.trim().equals("") && !response.trim().equals(Constants.SERVER_ERROR) && !response.trim().contains(Constants.RESPONSE_ERROR_HTML)){
                 if(response.trim().equals(Constants.RESPONSE_EMPTY)){
                     // List Empty
@@ -97,13 +96,11 @@ public class ProfileGetTask extends AsyncTask<Void, Integer, Boolean> {
 
     private void notifyOnProfileDownloadCompleteListener(boolean isOK, @NonNull String response) {
         if (listener != null){
-            Log.v(Constants.APP_NAME, TAG + "  listener is NULL  " + (listener == null) + "isOK " + isOK);
             if (isOK){
                 if (appController != null)
                     listener.onDownloadSucces(appController.accountStringToObj(response));
 
             }else{
-                Log.v(Constants.APP_NAME, TAG + " onDownloadError RUN");
                 listener.onDownloadError(response);
             }
             try {
@@ -118,7 +115,6 @@ public class ProfileGetTask extends AsyncTask<Void, Integer, Boolean> {
 
     public final class SignInTaskNetworkUtilities {
         public String getResponseFromHttpUrl( @NonNull String base_url) throws IOException {
-            Log.v(Constants.APP_NAME, TAG + "  base_url " + base_url);
 
             HttpClient httpclient ;
             HttpGet httpget = new HttpGet(base_url);

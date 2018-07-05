@@ -5,12 +5,14 @@ import android.app.AlertDialog;
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
+import android.util.Log;
 import android.view.View;
 
 import com.wedevgroup.weflyhelper.R;
 import com.wedevgroup.weflyhelper.model.Parcelle;
 import com.wedevgroup.weflyhelper.presenter.DataBasePresenter;
 import com.wedevgroup.weflyhelper.utils.AppController;
+import com.wedevgroup.weflyhelper.utils.Constants;
 
 import dmax.dialog.SpotsDialog;
 
@@ -59,15 +61,16 @@ public class ParcelleCreateTask extends AsyncTask<Void, Integer, Boolean> {
             if (image == null){
                 DataBasePresenter.getInstance().addParcelle(parcelle, act, isTempAvai, false);
                 DataBasePresenter.getInstance().close();
-                return true;
             }else{
                 if (DataBasePresenter.getInstance().addParcelle(parcelle, act, image, isTempAvai)){
                     DataBasePresenter.getInstance().close();
                     image.recycle();
                     image = null;
-                    return true;
                 }
             }
+            parcelle = null;
+            parcelle = DataBasePresenter.getInstance().getLastParcelle();
+            return true;
 
 
         } catch (Exception e){

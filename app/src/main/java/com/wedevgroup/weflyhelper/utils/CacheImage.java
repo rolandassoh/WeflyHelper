@@ -137,7 +137,7 @@ public class CacheImage {
             if(!directory.exists() && !directory.mkdirs()){
                 Log.v(Constants.APP_NAME, TAG + "Error creating directory " + directory);
             }
-             img = new File(directory, fileKey + fileExtension);
+            img = new File(directory, fileKey + fileExtension);
             fileOutputStream = new FileOutputStream(img);
             bitmapImage.compress(Bitmap.CompressFormat.PNG, 100, fileOutputStream);
         } catch (Exception e) {
@@ -203,6 +203,13 @@ public class CacheImage {
             // but what the hell will you do here :)
             e.printStackTrace();
         } catch (FileNotFoundException e) {
+            try {
+                return BitmapFactory.decodeResource(context.getResources(),R.drawable.img_default_parcel);
+            }catch (Exception en){
+                en.printStackTrace();
+            }catch (OutOfMemoryError err){
+                err.printStackTrace();
+            }
             e.printStackTrace();
         } finally {
             // get ready to be fired by your boss
@@ -701,11 +708,9 @@ public class CacheImage {
                 }else {
                     deleteRecursive(getInterDirectoryOnly(context, directoryName));
                 }
-                Log.v(Constants.APP_NAME, TAG + "cleanCache DONE");
 
             }catch (Exception e){
                 e.printStackTrace();
-                Log.v(Constants.APP_NAME, TAG + "cleanCache FAILED");
             }
         }
     }

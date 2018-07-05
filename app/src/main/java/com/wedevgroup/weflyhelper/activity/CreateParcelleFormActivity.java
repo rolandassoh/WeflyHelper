@@ -319,7 +319,8 @@ public class CreateParcelleFormActivity extends DBActivity implements DatePicker
     @Override
     public void onSaveSucces(@NonNull Parcelle p, @NonNull View view) {
         super.onSaveSucces(p, view);
-        onDiplayParcelleDetails(CreateParcelleFormActivity.this, parcel);
+
+        onDiplayParcelleDetails(CreateParcelleFormActivity.this, p);
     }
 
 

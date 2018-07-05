@@ -93,6 +93,7 @@ public  class  ParcellePostItemTask extends AsyncTask<Void, Integer, Boolean> {
                 parcelle.setDateSoumission(jOb.getString("date_soumission"));
                 parcelle.setDelete(Boolean.valueOf(jOb.getString("isDelete")));
                 parcelle.setNew(false);
+                //parcelle.setZone(jOb.getString("zone"));
 
 
                 if (DataBasePresenter.getInstance().updateParcelleFromApi(parcelle)){

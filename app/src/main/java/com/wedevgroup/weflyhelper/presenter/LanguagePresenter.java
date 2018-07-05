@@ -36,8 +36,6 @@ public class LanguagePresenter extends AppCompatActivity implements SettingPrese
         langManager = new SettingPresenter(this);
         langCode = langManager.getLanguage(); //load it from SharedPref
 
-        Log.v(Constants.APP_NAME, TAG+ "Lang Shared " + langCode);
-
         // Use language
         setLanguage(langCode);
     }

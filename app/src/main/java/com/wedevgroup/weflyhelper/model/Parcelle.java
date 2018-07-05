@@ -2,6 +2,7 @@ package com.wedevgroup.weflyhelper.model;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
@@ -537,8 +538,7 @@ public class Parcelle implements Serializable {
             //return Utils.getResizedBitmap(bp, 1280, 960);
         }catch (Exception e){
             e.printStackTrace();
-            // load default image
-            bp = Utils.drawableToBitmap(ctx, R.drawable.img_default_parcel);
+            bp = BitmapFactory.decodeResource(ctx.getResources(),R.drawable.img_default_parcel);
         }
 
         return bp;
@@ -618,7 +618,7 @@ public class Parcelle implements Serializable {
         String resp = "";
         if (ctx != null){
             try {
-               resp = Utils.encodeToBase64(getImageAsBitmap(ctx));
+                resp = Utils.encodeToBase64(getImageAsBitmap(ctx));
             }catch (Exception e){
                 e.printStackTrace();
             }

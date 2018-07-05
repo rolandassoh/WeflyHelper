@@ -29,7 +29,6 @@ public class NetworkWatcher {
 
 
     public  void isNetworkAvailable() {
-        Log.v(Constants.APP_NAME, TAG + "  isNetworkAvailable RUN");
         if (appController.isNetworkAvailable()){
             notifyOnInternetListener(true, false);
         }else {

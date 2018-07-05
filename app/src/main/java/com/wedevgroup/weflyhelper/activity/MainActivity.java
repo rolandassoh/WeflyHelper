@@ -273,13 +273,7 @@ public class MainActivity extends LocationActivity implements ParcelleViewAdapte
         fabAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // add new Parcel
-                fabAdd.clearAnimation();
-                fabAdd.startAnimation(disap);
-
-                Intent intent = new Intent(MainActivity.this, CreateParcelleActivity.class);
-
-                launchActivity(intent, MainActivity.this, false);
+                startAdd();
 
             }
         });
@@ -476,6 +470,17 @@ public class MainActivity extends LocationActivity implements ParcelleViewAdapte
         });
     }
 
+    private void startAdd() {
+        // add new Parcel
+        fabAdd.clearAnimation();
+        fabAdd.startAnimation(disap);
+
+        Intent intent = new Intent(MainActivity.this, CreateParcelleActivity.class);
+
+        launchActivity(intent, MainActivity.this, false);
+
+    }
+
     private void iniHamburgerMenu() {
         imgProfile.setImageDrawable(new IconicsDrawable(this, FontAwesome.Icon.faw_user2)
                 .color(ContextCompat.getColor(this,R.color.white))
@@ -545,10 +550,7 @@ public class MainActivity extends LocationActivity implements ParcelleViewAdapte
     }
 
     private void refreshUI() {
-        if (watcher != null){
-            selected = 4;
-            watcher.isNetworkAvailable();
-        }
+        onDisplayParcelles();
     }
 
 
@@ -1045,6 +1047,10 @@ public class MainActivity extends LocationActivity implements ParcelleViewAdapte
                     watcher.isNetworkAvailable();
                 }
                 break;
+            case 3:
+                // add Parcel
+                startAdd();
+                break;
             default:
                 break;
         }
@@ -1136,7 +1142,6 @@ public class MainActivity extends LocationActivity implements ParcelleViewAdapte
             case 3:
                 // DOWNLOAD
                 boolean shouldSync = true;
-                Utils.parcellesToLog(TAG, listForSyn, "listForSyn");
                 listForSyn.addAll(getParcelles());
                 for (Parcelle dm: listForSyn){
                     if (dm.getDateSoumission().toString().trim().equals("")){
@@ -1193,6 +1198,11 @@ public class MainActivity extends LocationActivity implements ParcelleViewAdapte
     public void onLoadError() {
         onDisplayUi(false,false,false, false, false, true, true);
 
+    }
+
+    @Override
+    public void onServerError() {
+        Utils.showToast(this, R.string.error_api,liMain );
     }
 
     @Override
