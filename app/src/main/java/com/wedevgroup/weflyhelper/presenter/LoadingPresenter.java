@@ -33,6 +33,7 @@ public class LoadingPresenter  {
     private static boolean isCultureLoaded = false;
     private static boolean isCultTypeLoaded = false;
     private static boolean isRegionsLoaded = false;
+    private static boolean isSynchLoaded = false;
     private static boolean isDateLoaded = false;
     private static boolean isStateAv;
     private static boolean isStarted = false;
@@ -73,6 +74,7 @@ public class LoadingPresenter  {
                 isCultTypeLoaded     = false;
                 isCultureLoaded      = false;
                 isRegionsLoaded      = false;
+                isSynchLoaded        = false;
                 isDateLoaded         = false;
                 isStarted            = false;
 
@@ -191,6 +193,53 @@ public class LoadingPresenter  {
 
     }
 
+    private  void getSynState(){
+        if (appController != null){
+            if (appController.isTokenAndUserOk(getActivity())){
+                final ForceSynchroniseManager f = new ForceSynchroniseManager(getActivity());
+                f.setOnSynchronizationCheckListener(new ForceSynchroniseManager.OnSynchronizationCheckListener() {
+                    @Override
+                    public void onCheckError() {
+                        isSynchLoaded = false;
+                        try {
+                            f.mustForceCheck();
+                            act.onDownloadError();
+                        }catch (Exception e){
+                            e.printStackTrace();
+                        }
+                    }
+
+                    @Override
+                    public void onCheckSucces() {
+                        synStateOk();
+
+                    }
+
+                    @Override
+                    public void onCheckEmpty() {
+                        f.shouldNotCheckAgain();
+                        synStateOk();
+                    }
+                });
+                f.checkForceSyn();
+            }
+        }
+
+
+    }
+
+    private void synStateOk() {
+        try {
+            act.notifyProgress(Constants.PROGRESS_SYNCHR_VALUE);
+            isSynchLoaded = true;
+            // Do not dowload Again
+            Save.defaultSaveBoolean(Constants.PREF_LOADER_IS_LOADED,true, act);
+            act.downloadComplete();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
     private void getDate(){
         if (appController != null){
             if (appController.isTokenAndUserOk(getActivity())){
@@ -226,9 +275,8 @@ public class LoadingPresenter  {
                             DataBasePresenter.getInstance().saveOnlineDBVersion(act, finalDate);
                             isDateLoaded = true;
 
-                            // Do not dowload Again
-                            Save.defaultSaveBoolean(Constants.PREF_LOADER_IS_LOADED,true, act);
-                            act.downloadComplete();
+                            getSynState();
+
                         }catch (Exception e){
                             e.printStackTrace();
                         }
@@ -292,6 +340,7 @@ public class LoadingPresenter  {
                                         isCultureLoaded      = false;
                                         isRegionsLoaded      = false;
                                         isDateLoaded         = false;
+                                        isSynchLoaded        = false;
                                         isStarted            = false;
                                     }
                                 }
@@ -371,6 +420,12 @@ public class LoadingPresenter  {
 
                     }else if (isDateLoaded){
                         act.notifyProgress(Constants.PROGRESS_DATE_VALUE);
+                        getSynState();
+
+
+
+                    }else if(isSynchLoaded){
+                        act.notifyProgress(Constants.PROGRESS_SYNCHR_VALUE);
                         act.downloadComplete();
                     }
                     else{
@@ -401,6 +456,7 @@ public class LoadingPresenter  {
         outState.putBoolean(Constants.PRESENTER_LOADER_OLD_IS_CULT_TYPE_LOADED, isCultTypeLoaded);
         outState.putBoolean(Constants.PRESENTER_LOADER_OLD_IS_CULTURE_LOADED, isCultureLoaded);
         outState.putBoolean(Constants.PRESENTER_LOADER_OLD_IS_REGION_LOADED, isRegionsLoaded);
+        outState.putBoolean(Constants.PRESENTER_LOADER_OLD_IS_SYNCH_LOADED, isSynchLoaded);
         outState.putBoolean(Constants.PRESENTER_LOADER_OLD_IS_DATE_LOADED, isDateLoaded);
         isStateAv = true;
 
@@ -414,6 +470,7 @@ public class LoadingPresenter  {
                 isCultureLoaded  = savedInstanceState.getBoolean(Constants.PRESENTER_LOADER_OLD_IS_CULTURE_LOADED, false);
                 isRegionsLoaded  = savedInstanceState.getBoolean(Constants.PRESENTER_LOADER_OLD_IS_REGION_LOADED, false);
                 isDateLoaded     = savedInstanceState.getBoolean(Constants.PRESENTER_LOADER_OLD_IS_DATE_LOADED, false);
+                isSynchLoaded     = savedInstanceState.getBoolean(Constants.PRESENTER_LOADER_OLD_IS_SYNCH_LOADED, false);
             }
 
             onRestart();

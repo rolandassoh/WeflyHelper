@@ -59,6 +59,7 @@ import com.wedevgroup.weflyhelper.model.Parcelle;
 import com.wedevgroup.weflyhelper.model.Point;
 import com.wedevgroup.weflyhelper.model.Profile;
 import com.wedevgroup.weflyhelper.presenter.DBActivity;
+import com.wedevgroup.weflyhelper.presenter.ForceSynchroniseManager;
 import com.wedevgroup.weflyhelper.presenter.LoadingPresenter;
 import com.wedevgroup.weflyhelper.presenter.LocationActivity;
 import com.wedevgroup.weflyhelper.service.PostParcelleService;
@@ -84,7 +85,7 @@ import java.util.List;
 
 import dmax.dialog.SpotsDialog;
 
-public class MainActivity extends LocationActivity implements ParcelleViewAdapter.OnListItemClickListener, OnMenuItemClickListener, ParcelleGetAllTask.OnParcelleLoadingCompleteListener, View.OnClickListener, GuillotineListener {
+public class MainActivity extends LocationActivity implements ParcelleViewAdapter.OnListItemClickListener, OnMenuItemClickListener, ParcelleGetAllTask.OnParcelleLoadingCompleteListener, View.OnClickListener, GuillotineListener, ForceSynchroniseManager.OnSynchronizationCompleteListener {
     private ArrayList<Parcelle> parcelleList = new ArrayList<>()  ;
     ArrayList<Parcelle> listForSyn = new ArrayList<>();
     private LinearLayout liMain, liNoParcel, liServerError;
@@ -124,6 +125,7 @@ public class MainActivity extends LocationActivity implements ParcelleViewAdapte
     private ImageView imgProfile, imgHelp, imgSetting, imgLogout;
     private LinearLayout liProfile, liHelp, liSetting, liLogout;
     GuillotineAnimation.GuillotineBuilder builder;
+    private ForceSynchroniseManager syManager;
 
     private Utils utils;
 
@@ -165,44 +167,51 @@ public class MainActivity extends LocationActivity implements ParcelleViewAdapte
         EventBus.getDefault().register(MainActivity.this);
 
         utils = new Utils();
+        syManager  = new ForceSynchroniseManager(this);
+        syManager.setOnSynchronizationCompleteListener(this);
+
 
         // show slid panel
         mLayout.setPanelState(SlidingUpPanelLayout.PanelState.HIDDEN);
         watcher = new NetworkWatcher(this, liMain);
         watcher.setOnInternetListener(this);
 
-        shouldShowDetails = getIntent().getBooleanExtra("showDetail", false);
+        // Not Syn DB available
+        if (!syManager.imNeedSyn()){
+            shouldShowDetails = getIntent().getBooleanExtra("showDetail", false);
 
-        onDisplayParcelles();
+            onDisplayParcelles();
 
-        if (shouldShowDetails){
-            parUpdated = (Parcelle) getIntent().getSerializableExtra("parcelObj");
-            if (parUpdated != null){
-                Handler mHandler = new Handler();
-                mHandler.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        try {
-                            runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    try {
-                                        onClick(parUpdated, MainActivity.this);
-                                    }catch (Exception e){
-                                        e.printStackTrace();
+            if (shouldShowDetails){
+                parUpdated = (Parcelle) getIntent().getSerializableExtra("parcelObj");
+                if (parUpdated != null){
+                    Handler mHandler = new Handler();
+                    mHandler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            try {
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        try {
+                                            onClick(parUpdated, MainActivity.this);
+                                        }catch (Exception e){
+                                            e.printStackTrace();
+                                        }
+
                                     }
+                                });
+                            }catch (Exception e){
+                                e.printStackTrace();
+                            }
 
-                                }
-                            });
-                        }catch (Exception e){
-                            e.printStackTrace();
                         }
+                    }, 400);
+                }
 
-                    }
-                }, 400);
             }
-
         }
+        // Check syn
 
     }
 
@@ -407,12 +416,29 @@ public class MainActivity extends LocationActivity implements ParcelleViewAdapte
         liLogout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //
-                if (appController != null)
-                    appController.cleanToken(MainActivity.this);
-                startActivity(new Intent(MainActivity.this, LoginActivity.class));
-                finish();
-                utils.animActivityOpen(MainActivity.this);
+                // Advise
+                AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+                builder.setTitle(getString(R.string.clean_title));
+                builder.setMessage(getString(R.string.clean_msg));
+                builder.setPositiveButton(getString(R.string.ok),
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                // remove all points
+                                if (appController != null){
+                                    appController.cleanToken(MainActivity.this);
+                                    if (syManager != null)
+                                        syManager.mustForceCheck();
+                                }
+
+                                startActivity(new Intent(MainActivity.this, LoginActivity.class));
+                                finish();
+                                utils.animActivityOpen(MainActivity.this);
+                            }
+                        });
+                builder.show();
+
+
             }
         });
 
@@ -658,6 +684,7 @@ public class MainActivity extends LocationActivity implements ParcelleViewAdapte
                             @Override
                             public void onClick(View view) {
                                 onDisplayParcelles();
+
                             }
                         });
                 snackbar.setActionTextColor(Color.RED);
@@ -755,7 +782,12 @@ public class MainActivity extends LocationActivity implements ParcelleViewAdapte
 
     @Override
     protected void onRestart() {
-        onDisplayParcelles();
+        if (syManager != null){
+            // Not Syn DB available
+            if (!syManager.imNeedSyn()){
+                onDisplayParcelles();
+            }
+        }
         super.onRestart();
     }
 
@@ -1175,6 +1207,16 @@ public class MainActivity extends LocationActivity implements ParcelleViewAdapte
                 presenter.checkUpdate();
                 isUpChecked = true;
                 break;
+
+            case 6:
+                // Force Synchonise
+                if (appController != null && syManager!= null){
+                    if (appController.isTokenAndUserOk(getApplicationContext())){
+                        syManager.startSynchro();
+                    }
+                }
+
+                break;
             default:
                 break;
         }
@@ -1191,7 +1233,12 @@ public class MainActivity extends LocationActivity implements ParcelleViewAdapte
     @Override
     public void onRetry() {
         super.onRetry();
-        refreshUI();
+        if (syManager != null){
+            if (!syManager.imNeedSyn()){
+                refreshUI();
+            }
+        }
+
     }
 
     @Override
@@ -1207,6 +1254,10 @@ public class MainActivity extends LocationActivity implements ParcelleViewAdapte
 
     @Override
     public void onSucces(@NonNull ArrayList<Parcelle> parcelles) {
+        loadSucces(parcelles, false);
+    }
+
+    private void loadSucces(@NonNull final ArrayList<Parcelle> parcelles, boolean displayFab) {
         parcelleList.clear();
         for (Parcelle pm: parcelles){
             // not delete
@@ -1218,9 +1269,9 @@ public class MainActivity extends LocationActivity implements ParcelleViewAdapte
             adapter = new ParcelleViewAdapter(MainActivity.this,parcelleList, liMain);
             adapter.setOnListItemClickListener(MainActivity.this, MainActivity.this);
             recyclerView.setAdapter(adapter);
-            onDisplayUi(true, false, false, false, false, false, false);
+            onDisplayUi(true, false, false, false, false, displayFab, false);
         }else{
-            onDisplayUi(false, true, false, false, false, false, false);
+            onDisplayUi(false, true, false, false, false, displayFab, false);
         }
 
         // Check update
@@ -1284,5 +1335,25 @@ public class MainActivity extends LocationActivity implements ParcelleViewAdapte
     @Override
     public void onGuillotineClosed() {
         guiloIsOpen = false;
+    }
+
+    public void resquestForceSyn() {
+        if (watcher != null){
+            selected = 6;
+            watcher.isNetworkAvailable();
+        }
+    }
+
+    @Override
+    public void onSynError() {
+        Utils.showToast(this, R.string.error_api,liMain );
+        if (syManager != null)
+            syManager.showDialError();
+
+    }
+
+    @Override
+    public void onSynSucces(@NonNull ArrayList<Parcelle> parcelles) {
+        loadSucces(parcelles, true);
     }
 }

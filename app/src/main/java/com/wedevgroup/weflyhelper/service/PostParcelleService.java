@@ -134,138 +134,146 @@ public class PostParcelleService extends DBService {
 
                         if (networkInfo != null && networkInfo.isAvailable()) {
 
-                            // No thread running
-                            if(!Save.defaultLoadBoolean(Constants.THREAD_AUTO_POST_IS_RUNNING,   getBaseContext())){
-                                // start Flags
-                                Save.defaultSaveBoolean(Constants.THREAD_AUTO_POST_IS_RUNNING, true,  getBaseContext());
+                            //Do  Syn before do task
+                            if(!Save.defaultLoadBoolean(Constants.PREF_SYNCH_MUST_FORCE_IS_ENABLE,   getBaseContext())){
+                                //No task running
+                                if(!Save.defaultLoadBoolean(Constants.THREAD_SYNCHRO_FORCED_IS_RUNNING,   getBaseContext())){
+                                    // No thread running
+                                    if(!Save.defaultLoadBoolean(Constants.THREAD_AUTO_POST_IS_RUNNING,   getBaseContext())){
+                                        // start Flags
+                                        Save.defaultSaveBoolean(Constants.THREAD_AUTO_POST_IS_RUNNING, true,  getBaseContext());
 
 
-                                // Permission
-                                if (isAllPermissionGranted){
-                                    // Ping
-                                    if(Utils.isConnectedToInternet(PostParcelleService.this)){
-                                        // Internet Available
-                                        ArrayList<Parcelle> parcelles = new ArrayList<>();
-                                        CopyOnWriteArrayList<Parcelle> collection = new CopyOnWriteArrayList<Parcelle>();
-                                        CopyOnWriteArrayList<Parcelle> listToCreate = new CopyOnWriteArrayList<Parcelle>();
-                                        boolean isCreateResOk = false;
-                                        boolean isUpdateResOk = false;
+                                        // Permission
+                                        if (isAllPermissionGranted){
+                                            // Ping
+                                            if(Utils.isConnectedToInternet(PostParcelleService.this)){
+                                                // Internet Available
+                                                ArrayList<Parcelle> parcelles = new ArrayList<>();
+                                                CopyOnWriteArrayList<Parcelle> collection = new CopyOnWriteArrayList<Parcelle>();
+                                                CopyOnWriteArrayList<Parcelle> listToCreate = new CopyOnWriteArrayList<Parcelle>();
+                                                boolean isCreateResOk = false;
+                                                boolean isUpdateResOk = false;
 
-                                        parcelles.addAll(getDBManager().getParcelles());
+                                                parcelles.addAll(getDBManager().getParcelles());
 
-                                        if (parcelles.size() > 0){
-                                            for (Parcelle dm: parcelles){
-                                                if (dm.getDateSoumission().toString().trim().equals(""))
-                                                    collection.add(dm);
+                                                if (parcelles.size() > 0){
+                                                    for (Parcelle dm: parcelles){
+                                                        if (dm.getDateSoumission().toString().trim().equals(""))
+                                                            collection.add(dm);
+                                                    }
+                                                }else
+                                                    stopSelf(serviceId);
+
+
+                                                // have updated
+                                                if (collection.size() > 0){
+                                                    // send Data
+                                                    for (Parcelle cDm: collection){
+                                                        if (cDm.isNew()){
+                                                            listToCreate.add(cDm);
+                                                            collection.remove(cDm);
+                                                        }
+
+                                                    }
+
+                                                    // Send all New
+                                                    if (listToCreate.size() > 0){
+                                                        ParcelleServiceNetworkUtilities post = new ParcelleServiceNetworkUtilities();
+                                                        try {
+                                                            resPostCreate = post.getResponseFromHttpUrl(convertListToString(listToCreate, false, getBaseContext()), Constants.PARCELLE_SENT_URL);
+                                                        } catch (IOException e) {
+                                                            e.printStackTrace();
+                                                        }
+
+                                                        if (!resPostCreate.trim().equals("") && !resPostCreate.trim().equals(Constants.SERVER_ERROR) && !resPostCreate.trim().equals(Constants.RESPONSE_EMPTY) && !resPostCreate.trim().contains(Constants.RESPONSE_ERROR_HTML)){
+                                                            if(resPostCreate.trim().contains(Constants.RESPONSE_EMPTY_INPUT)){
+                                                                isCreateResOk = false;
+                                                            }else{
+                                                                // post update
+                                                                try {
+                                                                    JSONArray jArray = new JSONObject(resPostCreate)
+                                                                            .getJSONArray("reponse")
+                                                                            .getJSONArray(0);
+                                                                    // Save All new
+                                                                    isCreateResOk = saveOnDb(listToCreate, resPostCreate, getBaseContext());
+
+                                                                } catch (JSONException e) {
+                                                                    e.printStackTrace();
+                                                                }
+                                                            }
+
+                                                        }
+                                                    }
+
+                                                    // Send all to Update
+                                                    if (collection.size() > 0){
+
+                                                        ParcelleServiceNetworkUtilities update = new ParcelleServiceNetworkUtilities();
+                                                        try {
+                                                            resPostUpdate = update.getResponseFromHttpUrl(convertListToString(collection, true, getBaseContext()), Constants.PARCELLE_SENT_UPDATE_URL);
+                                                        } catch (IOException e) {
+                                                            e.printStackTrace();
+                                                        }
+
+                                                        if (!resPostUpdate.trim().equals("") && !resPostUpdate.trim().equals(Constants.SERVER_ERROR) && !resPostUpdate.trim().equals(Constants.RESPONSE_EMPTY) && !resPostUpdate.trim().contains(Constants.RESPONSE_ERROR_HTML)){
+                                                            // everything is Ok so fusion
+                                                            if(resPostUpdate.trim().contains(Constants.RESPONSE_EMPTY_INPUT)){
+                                                                isUpdateResOk = false;
+                                                            }else {
+                                                                try {
+                                                                    JSONArray arrUpdated = new JSONObject(resPostUpdate)
+                                                                            .getJSONArray("reponse")
+                                                                            .getJSONArray(0);
+
+                                                                    //  update all
+                                                                    isUpdateResOk = updateDb(collection,resPostUpdate, getBaseContext());
+
+                                                                }catch (Exception e){
+                                                                    e.printStackTrace();
+                                                                }
+                                                            }
+
+
+                                                        }
+                                                    }
+
+                                                    // Save All
+                                                    if (isCreateResOk || isUpdateResOk){
+                                                        // Notify
+                                                        NotificationCompat.Builder builder =
+                                                                new NotificationCompat.Builder( getBaseContext())
+                                                                        .setSmallIcon(R.drawable.ic_notification_default)
+                                                                        .setContentTitle( getBaseContext().getString(R.string.notif_service_title))
+                                                                        .setContentText( getBaseContext().getString(R.string.succes_parcelles))
+                                                                        .setAutoCancel(true);
+
+                                                        Intent targetIntent = new Intent( getBaseContext(), MainActivity.class);
+                                                        PendingIntent contentIntent = PendingIntent.getActivity( getBaseContext(), 0, targetIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+                                                        builder.setContentIntent(contentIntent);
+                                                        NotificationManager nManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+                                                        nManager.notify(Constants.NOTIFICATION_SERVICE_AUTO_POST_ID, builder.build());
+
+                                                        // stop Thread
+                                                        stopSelf(serviceId);
+
+                                                    }else
+                                                        onResponseError(Constants.RESPONSE_CODE_ERROR_UPLOAD, true);
+
+                                                }
+                                            }else {
+                                                onResponseError(Constants.RESPONSE_CODE_ERROR_NO_INTERNET, true);
                                             }
                                         }else
-                                            stopSelf(serviceId);
+                                            stopSelf();
 
 
-                                        // have updated
-                                        if (collection.size() > 0){
-                                            // send Data
-                                            for (Parcelle cDm: collection){
-                                                if (cDm.isNew()){
-                                                    listToCreate.add(cDm);
-                                                    collection.remove(cDm);
-                                                }
-
-                                            }
-
-                                            // Send all New
-                                            if (listToCreate.size() > 0){
-                                                ParcelleServiceNetworkUtilities post = new ParcelleServiceNetworkUtilities();
-                                                try {
-                                                    resPostCreate = post.getResponseFromHttpUrl(convertListToString(listToCreate, false, getBaseContext()), Constants.PARCELLE_SENT_URL);
-                                                } catch (IOException e) {
-                                                    e.printStackTrace();
-                                                }
-
-                                                if (!resPostCreate.trim().equals("") && !resPostCreate.trim().equals(Constants.SERVER_ERROR) && !resPostCreate.trim().equals(Constants.RESPONSE_EMPTY) && !resPostCreate.trim().contains(Constants.RESPONSE_ERROR_HTML)){
-                                                    if(resPostCreate.trim().contains(Constants.RESPONSE_EMPTY_INPUT)){
-                                                        isCreateResOk = false;
-                                                    }else{
-                                                        // post update
-                                                        try {
-                                                            JSONArray jArray = new JSONObject(resPostCreate)
-                                                                    .getJSONArray("reponse")
-                                                                    .getJSONArray(0);
-                                                            // Save All new
-                                                            isCreateResOk = saveOnDb(listToCreate, resPostCreate, getBaseContext());
-
-                                                        } catch (JSONException e) {
-                                                            e.printStackTrace();
-                                                        }
-                                                    }
-
-                                                }
-                                            }
-
-                                            // Send all to Update
-                                            if (collection.size() > 0){
-
-                                                ParcelleServiceNetworkUtilities update = new ParcelleServiceNetworkUtilities();
-                                                try {
-                                                    resPostUpdate = update.getResponseFromHttpUrl(convertListToString(collection, true, getBaseContext()), Constants.PARCELLE_SENT_UPDATE_URL);
-                                                } catch (IOException e) {
-                                                    e.printStackTrace();
-                                                }
-
-                                                if (!resPostUpdate.trim().equals("") && !resPostUpdate.trim().equals(Constants.SERVER_ERROR) && !resPostUpdate.trim().equals(Constants.RESPONSE_EMPTY) && !resPostUpdate.trim().contains(Constants.RESPONSE_ERROR_HTML)){
-                                                    // everything is Ok so fusion
-                                                    if(resPostUpdate.trim().contains(Constants.RESPONSE_EMPTY_INPUT)){
-                                                        isUpdateResOk = false;
-                                                    }else {
-                                                        try {
-                                                            JSONArray arrUpdated = new JSONObject(resPostUpdate)
-                                                                    .getJSONArray("reponse")
-                                                                    .getJSONArray(0);
-
-                                                            //  update all
-                                                            isUpdateResOk = updateDb(collection,resPostUpdate, getBaseContext());
-
-                                                        }catch (Exception e){
-                                                            e.printStackTrace();
-                                                        }
-                                                    }
-
-
-                                                }
-                                            }
-
-                                            // Save All
-                                            if (isCreateResOk || isUpdateResOk){
-                                                // Notify
-                                                NotificationCompat.Builder builder =
-                                                        new NotificationCompat.Builder( getBaseContext())
-                                                                .setSmallIcon(R.drawable.ic_notification_default)
-                                                                .setContentTitle( getBaseContext().getString(R.string.notif_service_title))
-                                                                .setContentText( getBaseContext().getString(R.string.succes_parcelles))
-                                                                .setAutoCancel(true);
-
-                                                Intent targetIntent = new Intent( getBaseContext(), MainActivity.class);
-                                                PendingIntent contentIntent = PendingIntent.getActivity( getBaseContext(), 0, targetIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-                                                builder.setContentIntent(contentIntent);
-                                                NotificationManager nManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-                                                nManager.notify(Constants.NOTIFICATION_SERVICE_AUTO_POST_ID, builder.build());
-
-                                                // stop Thread
-                                                stopSelf(serviceId);
-
-                                            }else
-                                                onResponseError(Constants.RESPONSE_CODE_ERROR_UPLOAD, true);
-
-                                        }
-                                    }else {
-                                        onResponseError(Constants.RESPONSE_CODE_ERROR_NO_INTERNET, true);
-                                    }
+                                    }else
+                                        stopSelf();
                                 }else
                                     stopSelf();
 
-
-                            }else
-                                stopSelf();
+                            }
 
                         } else {
                             stopSelf();

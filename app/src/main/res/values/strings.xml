@@ -226,4 +226,16 @@
     <string name="download_msg">tutoriel d\'utilisation de WeflyHelper</string>
     <string name="del_cache_title">Suppression</string>
     <string name="del_cache_msg">Êtes-vous sûr de vouloir vider le cache</string>
+
+    <string name="synch_ttle">Restauration</string>
+    <string name="synch_msg">Souhaitez-vous synchroniser et récupérer vos précédents parcelles</string>
+    <string name="synch_err_ttle">Erreur</string>
+    <string name="synch_err_msg">Nous avons rencontré un problème</string>
+    <string name="close">Fermer</string>
+
+    <string name="clean_title">Avertissement</string>
+    <string name="clean_msg">Toutes vos parcelles non téléversées seront supprimées si un nouvel utilisateur se connecte</string>
+    <string name="ok">OK</string>
+
+
 </resources>

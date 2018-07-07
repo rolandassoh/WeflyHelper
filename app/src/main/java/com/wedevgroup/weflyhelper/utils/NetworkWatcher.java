@@ -45,7 +45,7 @@ public class NetworkWatcher {
                 snackbar.setActionTextColor(Color.RED);
                 View sbView = snackbar.getView();
                 TextView textView = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
-                textView.setTextColor(ContextCompat.getColor(ctx, R.color.colorPrimary));
+                textView.setTextColor(ContextCompat.getColor(ctx, R.color.white));
                 snackbar.show();
             } catch (Exception e){
                 e.printStackTrace();

@@ -35,6 +35,7 @@ import com.wedevgroup.weflyhelper.model.Parcelle;
 import com.wedevgroup.weflyhelper.model.Point;
 import com.wedevgroup.weflyhelper.presenter.DBActivity;
 import com.wedevgroup.weflyhelper.presenter.DrawingPresenter;
+import com.wedevgroup.weflyhelper.presenter.ForceSynchroniseManager;
 import com.wedevgroup.weflyhelper.presenter.LocationPresenter;
 import com.wedevgroup.weflyhelper.service.LocationProviderService;
 import com.wedevgroup.weflyhelper.utils.CacheImage;
@@ -68,6 +69,7 @@ public class CreateParcelleActivity extends DBActivity implements  GoogleMapCust
     private Parcelle parcel = new Parcelle();
     private Toolbar toolbar;
     private boolean mustShowPos;
+    private ForceSynchroniseManager syManager;
     CoordinatorLayout coordinatorLayout;
 
     LinearLayout liMap;
@@ -94,43 +96,48 @@ public class CreateParcelleActivity extends DBActivity implements  GoogleMapCust
             e.printStackTrace();
         }
 
-        isEditMode = getIntent().getBooleanExtra("toEdit", false);
-        if (isEditMode){
-            parcelToUpd = (Parcelle) getIntent().getSerializableExtra("parcelObj");
-            mustShowPos = false;
-        }else
-            mustShowPos = true;
+        syManager  = new ForceSynchroniseManager(this);
 
-        mapViewCustom.getMapAsync(new OnMapReadyCallBackCustom() {
-            @Override
-            public void onMapReady(GoogleMapCustom googleMapCustom) {
-                map = googleMapCustom;
-                map.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
-                map.getUiSettings().setMapToolbarEnabled(false);
-                map.getUiSettings().setAllGesturesEnabled(true);
-                map.setOnMarkerDragListener(CreateParcelleActivity.this);
+        // Not Syn DB available
+        if (!syManager.imNeedSyn()){
+            isEditMode = getIntent().getBooleanExtra("toEdit", false);
+            if (isEditMode){
+                parcelToUpd = (Parcelle) getIntent().getSerializableExtra("parcelObj");
+                mustShowPos = false;
+            }else
+                mustShowPos = true;
 
-                draPresenter = new DrawingPresenter(CreateParcelleActivity.this, map, coLayout);
-                draPresenter.setOnDrawingComleteListener(CreateParcelleActivity.this);
+            mapViewCustom.getMapAsync(new OnMapReadyCallBackCustom() {
+                @Override
+                public void onMapReady(GoogleMapCustom googleMapCustom) {
+                    map = googleMapCustom;
+                    map.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
+                    map.getUiSettings().setMapToolbarEnabled(false);
+                    map.getUiSettings().setAllGesturesEnabled(true);
+                    map.setOnMarkerDragListener(CreateParcelleActivity.this);
 
-                if (!mustShowPos){
-                    showPanel();
-                }else
-                    hidePanel();
+                    draPresenter = new DrawingPresenter(CreateParcelleActivity.this, map, coLayout);
+                    draPresenter.setOnDrawingComleteListener(CreateParcelleActivity.this);
+
+                    if (!mustShowPos){
+                        showPanel();
+                    }else
+                        hidePanel();
 
 
-                if (isEditMode){
-                    if (parcelToUpd != null)
-                        draPresenter.onEditMode(parcelToUpd);
+                    if (isEditMode){
+                        if (parcelToUpd != null)
+                            draPresenter.onEditMode(parcelToUpd);
+                    }
+
+                    if(draPresenter.isStateAvaiable())
+                        draPresenter.onReloadRestoreState();
+
                 }
+            });
 
-                if(draPresenter.isStateAvaiable())
-                    draPresenter.onReloadRestoreState();
-
-            }
-        });
-
-        onShowLocation();
+            onShowLocation();
+        }
     }
 
     private void showPanel() {

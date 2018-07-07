@@ -78,6 +78,7 @@ public class Constants {
     public static final String PREF_TOKEN                             = PATH + ".token";
     public static final String PREF_LOADER_IS_LOADED                  = PATH + ".loader";
     public static final String PREF_AUTO_POST_SERVICE_IS_ENABLE       = PATH + ".service.autopost";
+    public static final String THREAD_SYNCHRO_FORCED_IS_RUNNING       = PATH + ".task.synchro.force";
     public static final String PREF_PREFERE_STORAGE_IS_INTERNAL       = PATH + ".storage.choice";
     public static final String PREF_IS_FIRST_LAUNCH                   = PATH + ".isfirstlaunch";
     public static final String PREF_IS_LANGUAGE_FRENCH                = PATH + ".islanguagefrench";
@@ -89,6 +90,8 @@ public class Constants {
     public static final String PREF_UPDATE_MESSAGE                    = PATH + ".update.msg";
     public static final String PREF_IS_SAME_USER                      = PATH + ".user.same";
     public static final String PREF_HAS_DOWNLOAD                      = PATH + ".user.has.download";
+    public static final String PREF_SYNCH_IS_FIRST_TIME               = PATH + ".syn.first.time";
+    public static final String PREF_SYNCH_MUST_FORCE_IS_ENABLE        = PATH + ".syn.must.force";
 
     // File extension
     public static final String FILE_EXTENSION                         = ".mp4";
@@ -131,11 +134,12 @@ public class Constants {
     public static final int REQUEST_APP_PERMISSION = 425;
 
     // Progress
-    public static final int PROGRESS_CULTURE_TYPE_VALUE = 30;
-    public static final int PROGRESS_CULTURE_VALUE = 80;
-    public static final int PROGRESS_REGION_VALUE = 95;
-    public static final int PROGRESS_DATE_VALUE = 100;
-    public static final int PROGRESS_DEFAULT_VALUE = 0;
+    public static final int PROGRESS_CULTURE_TYPE_VALUE         = 30;
+    public static final int PROGRESS_CULTURE_VALUE              = 60;
+    public static final int PROGRESS_REGION_VALUE               = 85;
+    public static final int PROGRESS_DATE_VALUE                 = 95;
+    public static final int PROGRESS_SYNCHR_VALUE               = 100;
+    public static final int PROGRESS_DEFAULT_VALUE              = 0;
 
     //NOTIFICATION
     public static final int NOTIFICATION_SERVICE_AUTO_POST_ID = 98765;
@@ -147,6 +151,7 @@ public class Constants {
     public static final String PRESENTER_LOADER_OLD_IS_CULT_TYPE_LOADED = "loader_is_cult_type";
     public static final String PRESENTER_LOADER_OLD_IS_REGION_LOADED = "loader_is_region";
     public static final String PRESENTER_LOADER_OLD_IS_DATE_LOADED = "loader_is_date";
+    public static final String PRESENTER_LOADER_OLD_IS_SYNCH_LOADED = "loader_is_synch_state";
 
     //Zone
     public static final int ZONE_A = 2;

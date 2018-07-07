@@ -19,6 +19,8 @@ import android.widget.ImageView;
 
 import com.wedevgroup.weflyhelper.R;
 import com.wedevgroup.weflyhelper.presenter.BaseActivity;
+import com.wedevgroup.weflyhelper.presenter.DBActivity;
+import com.wedevgroup.weflyhelper.presenter.ForceSynchroniseManager;
 import com.wedevgroup.weflyhelper.service.NetworkSchedulerService;
 import com.wedevgroup.weflyhelper.utils.AppController;
 import com.wedevgroup.weflyhelper.utils.Constants;
@@ -29,7 +31,7 @@ import com.wedevgroup.weflyhelper.utils.design.KenBurnsView;
 
 import java.util.concurrent.TimeUnit;
 
-public class SplashScreensActivity extends BaseActivity {
+public class SplashScreensActivity extends DBActivity {
 	
 	private KenBurnsView mKenBurns;
 	private Utils utils;
@@ -97,6 +99,9 @@ public class SplashScreensActivity extends BaseActivity {
             Save.defaultSaveBoolean(Constants.PREF_PREFERE_STORAGE_IS_INTERNAL,true, SplashScreensActivity.this);
             Save.defaultSaveBoolean(Constants.PREF_AUTO_POST_SERVICE_IS_ENABLE,true, SplashScreensActivity.this);
             Save.defaultSaveBoolean(Constants.PREF_IS_LANGUAGE_FRENCH,true, SplashScreensActivity.this);
+            // Force syn
+            ForceSynchroniseManager f = new ForceSynchroniseManager(this);
+            f.mustForceCheck();
 
             Save.defaultSaveBoolean(Constants.PREF_IS_FIRST_LAUNCH,true, SplashScreensActivity.this);
         }
